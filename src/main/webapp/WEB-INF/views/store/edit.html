@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit page</title>
+</head>
+<body>
+<h1>Editing info</h1>
+
+<form th:method="PATCH" th:action="@{/store/{id}(id=${updateBook.getId()})}" th:object="${updateBook}" >
+    <fieldset>
+        <legend>Registration</legend>
+        <label for="name">Name: </label>
+        <input type="text" th:field="*{name}" id="name"/></br>
+        <label for="author">Author Name: </label>
+        <input type="text" th:field="*{author}" id="author"/></br>
+        <label for="year">Written Year: </label>
+        <input type="number" th:field="*{published_year}" id="year"/></br>
+        <label for="genre">Genre: </label>
+        <select name="genre" th:field="*{genre}" id="genre">
+            <option value="novel">Novel</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="science fiction">Science Fiction</option>
+            <option value="drama">Drama</option>
+            <option value="romance">Romance</option>
+            <option value="mystery">Mystery</option>
+            <option value="children's literature">Children's Literature</option>
+            <option value="biography">Biography</option>
+        </select></br>
+        <label for="descr">Description: </label>
+        <input type="text" th:field="*{description}" id="descr"/></br>
+        <input type="submit" value="Update"/>
+    </fieldset>
+</form>
+
+</body>
+</html>
