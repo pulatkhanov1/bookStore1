@@ -53,15 +53,55 @@ public class BookDAO {
         }
         return books;
     }
-    public Book show(int id){
-    Book book=null;
-        try {
-            PreparedStatement preparedStatement= connection.prepareStatement("SELECT * FROM books WHERE id=?");
-            preparedStatement.setInt(1,id);
 
-            ResultSet resultSet= preparedStatement.executeQuery();
+    public List<Book> genre(String genre) {
+        List<Book> books = new ArrayList<>();
+        try {
+//            Statement statement=connection.createStatement();
+//            String sql="SELECT * FROM books WHERE genre='"+genre+"'";
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM books WHERE genre=?");
+            preparedStatement.setString(1, genre);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            book= new Book();
+
+            Book book = new Book();
+            book.setId(resultSet.getInt("id"));
+            book.setName((resultSet.getString("name")));
+            book.setAuthor(resultSet.getString("author"));
+            book.setPublished_year(resultSet.getInt("published_year"));
+            book.setGenre(resultSet.getString("genre"));
+            book.setDescription(resultSet.getString("description"));
+
+            books.add(book);
+
+            while (resultSet.next()) {
+                book = new Book();
+                book.setId(resultSet.getInt("id"));
+                book.setName((resultSet.getString("name")));
+                book.setAuthor(resultSet.getString("author"));
+                book.setPublished_year(resultSet.getInt("published_year"));
+                book.setGenre(resultSet.getString("genre"));
+                book.setDescription(resultSet.getString("description"));
+
+                books.add(book);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+
+    }
+
+    public Book show(int id) {
+        Book book = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM books WHERE id=?");
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            book = new Book();
             book.setName(resultSet.getString("name"));
             book.setAuthor(resultSet.getString("author"));
             book.setPublished_year(resultSet.getInt("published_year"));
@@ -74,49 +114,51 @@ public class BookDAO {
         return book;
 
     }
-     public void create(Book book){
-         try {
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO books(name, author, published_year, genre, description) VALUES (?,?,?,?,?)");
-             preparedStatement.setString(1, book.getName());
-             preparedStatement.setString(2, book.getAuthor());
-             preparedStatement.setInt(3, book.getPublished_year());
-             preparedStatement.setString(4, book.getGenre());
-             preparedStatement.setString(5, book.getDescription());
 
-             preparedStatement.executeUpdate();
+    public void create(Book book) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO books(name, author, published_year, genre, description) VALUES (?,?,?,?,?)");
+            preparedStatement.setString(1, book.getName());
+            preparedStatement.setString(2, book.getAuthor());
+            preparedStatement.setInt(3, book.getPublished_year());
+            preparedStatement.setString(4, book.getGenre());
+            preparedStatement.setString(5, book.getDescription());
+
+            preparedStatement.executeUpdate();
 
 
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-     }
-     public void update(int id, Book updateBook){
-         try {
-             PreparedStatement preparedStatement=
-             connection.prepareStatement("UPDATE books SET name=?, author=?, published_year=?, genre=?, description=? WHERE id=?");
-             preparedStatement.setString(1, updateBook.getName());
-             preparedStatement.setString(2, updateBook.getAuthor());
-             preparedStatement.setInt(3, updateBook.getPublished_year());
-             preparedStatement.setString(4, updateBook.getGenre());
-             preparedStatement.setString(5, updateBook.getDescription());
-             preparedStatement.setInt(6, id);
-             preparedStatement.executeUpdate();
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
-     }
-     public void delete(int id){
-     PreparedStatement preparedStatement=null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-         try {
-             preparedStatement= connection.prepareStatement("DELETE FROM books WHERE id=?");
-             preparedStatement.setInt(1, id);
+    public void update(int id, Book updateBook) {
+        try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement("UPDATE books SET name=?, author=?, published_year=?, genre=?, description=? WHERE id=?");
+            preparedStatement.setString(1, updateBook.getName());
+            preparedStatement.setString(2, updateBook.getAuthor());
+            preparedStatement.setInt(3, updateBook.getPublished_year());
+            preparedStatement.setString(4, updateBook.getGenre());
+            preparedStatement.setString(5, updateBook.getDescription());
+            preparedStatement.setInt(6, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-             preparedStatement.executeUpdate();
-         } catch (SQLException e) {
-             e.printStackTrace();
-         }
+    public void delete(int id) {
+        PreparedStatement preparedStatement = null;
 
-     }
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM books WHERE id=?");
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

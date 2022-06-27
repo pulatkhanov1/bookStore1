@@ -5,12 +5,20 @@
     <title>Main Page</title>
 </head>
 <body>
-<h1>This is Main Page</h1>
+<h1>Main Page</h1>
 
 <div th:each="book : ${bookList}">
     <a th:href="@{/store/{id} (id=${book.getId()})}"
     th:text="${book.getName() +',    '+book.getAuthor()}"> Book Space <br/></a>
 
-</div>
+</div><br/>
+<hr>
+<h2>Categories</h2>
+<a href="/store/category/novel">Novel</a> <p>   </p>
+<a href="/store/category/fantasy">Fantasy</a><p>   </p>
+<a href="/store/category/romance">Romance</a><p>   </p>
+<a href="/store/category/science">Science Fiction</a><p>   </p>
+
+<img th:src="@{/Users/User/Desktop/1.jpg}"/>
 </body>
 </html>

@@ -21,7 +21,11 @@ public final BookDAO bookDAO;
     model.addAttribute("bookList", bookDAO.index());
     return "store/mainPage";
     }
-
+    @GetMapping("category/{genre}")
+    public String categories(Model model, @PathVariable("genre") String genre){
+    model.addAttribute("categories", bookDAO.genre(genre));
+    return "store/category";
+    }
     @GetMapping("/{id}")
     public String one(@PathVariable("id") int id, Model model){
     model.addAttribute("bookinfo", bookDAO.show(id));
